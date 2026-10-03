@@ -34,6 +34,11 @@ export class BookRepository {
     )).rows[0];
   }
   async delete(id: number) {
-    return (await pool.query('DELETE FROM books WHERE id=$1 RETURNING id', [id])).rowCount > 0;
-  }
+  const result = await pool.query(
+    'DELETE FROM books WHERE id=$1 RETURNING id',
+    [id]
+  );
+
+  return (result.rowCount ?? 0) > 0;
+}
 }
