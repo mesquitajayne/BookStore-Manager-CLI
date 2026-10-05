@@ -7,4 +7,9 @@ export class ReportController {
   booksByGenre() { return this.service.booksByGenre(); }
   topBooks() { return this.service.topBooks(); }
   availableBooks() { return this.service.availableBooks(); }
+    borrowedBooks() { return this.service.borrowedBooks(); }
+
+  loansByBook() { return this.service.loansByBook(); }
+
+  customersWithActiveLoans() { return this.service.customersWithActiveLoans(); }
 }

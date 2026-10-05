@@ -7,4 +7,15 @@ export class ReportService {
   booksByGenre() { return this.repository.booksByGenre(); }
   topBooks() { return this.repository.topBooks(); }
   availableBooks() { return this.repository.availableBooks(); }
+    borrowedBooks() {
+    return this.repository.borrowedBooks();
+  }
+
+  loansByBook() {
+    return this.repository.loansByBook();
+  }
+
+  customersWithActiveLoans() {
+    return this.repository.customersWithActiveLoans();
+  }
 }
