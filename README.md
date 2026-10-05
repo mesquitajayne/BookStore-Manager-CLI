@@ -27,6 +27,7 @@ Clone o repositório e acesse a pasta do projeto:
 
 ```bash
 git clone https://github.com/mesquitajayne/BookStore-Manager-CLI.git
+
 cd BookStore-Manager-CLI
 ```
 
@@ -115,8 +116,10 @@ PostgreSQL
 
 ```text
 BookStore-Manager-CLI/
+
 ├── database/
 │   └── schema.sql
+
 ├── src/
 │   ├── controllers/
 │   │   ├── authorController.ts
@@ -124,23 +127,32 @@ BookStore-Manager-CLI/
 │   │   ├── customerController.ts
 │   │   ├── loanController.ts
 │   │   └── reportController.ts
+│   │
 │   ├── database/
 │   │   └── connection.ts
+│   │
 │   ├── models/
 │   │   └── types.ts
+│   │
 │   ├── repositories/
 │   │   ├── authorRepository.ts
 │   │   ├── bookRepository.ts
 │   │   ├── customerRepository.ts
 │   │   ├── loanRepository.ts
 │   │   └── reportRepository.ts
+│   │
 │   ├── services/
 │   │   ├── authorService.ts
 │   │   ├── bookService.ts
 │   │   ├── customerService.ts
 │   │   ├── loanService.ts
 │   │   └── reportService.ts
-│   └── index.ts
+│   │
+│   ├── utils/
+│   │   └── validation.ts
+│   │
+│   └── main.ts
+│
 ├── .env.example
 ├── .gitignore
 ├── package.json
@@ -155,7 +167,8 @@ BookStore-Manager-CLI/
 * **Repositories:** executam as operações SQL no PostgreSQL.
 * **Models:** definem interfaces e tipos utilizados pela aplicação.
 * **Database:** configura a conexão com o PostgreSQL.
-* **Index:** controla os menus e a interação com o usuário.
+* **Utils:** reúne funções auxiliares de validação utilizadas pela aplicação.
+* **Main:** controla os menus e a interação com o usuário.
 
 ## Funcionalidades
 
@@ -281,9 +294,9 @@ feat/* → develop → main
 
 ## Kanban
 
-Link do quadro Kanban do projeto:
+O desenvolvimento do projeto foi acompanhado por meio de um quadro Kanban no GitHub Projects.
 
-> Adicione aqui o link do seu quadro Kanban utilizado durante o desenvolvimento.
+[Backlog · Gerente da Livraria CLI - Desenvolvimento](https://github.com/users/mesquitajayne/projects/2)
 
 ## Equipe
 
