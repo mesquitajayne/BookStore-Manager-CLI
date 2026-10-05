@@ -305,3 +305,13 @@ Projeto desenvolvido para a disciplina de Engenharia de Software.
 ## LicenÃ§a
 
 Projeto acadÃªmico desenvolvido para fins educacionais.
+
+## Checklist de entrega
+
+- Projeto compilando com TypeScript
+- PostgreSQL conectado e funcionando
+- CRUDs de autores, livros e clientes
+- Empréstimos e devoluções
+- Relatórios
+- Documentação e organização do projeto
+- Kanban/GitHub atualizado para a entrega
