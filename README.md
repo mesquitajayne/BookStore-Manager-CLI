@@ -2,45 +2,94 @@
 
 Aplicação de terminal para gerenciamento de autores, livros, clientes e empréstimos, desenvolvida com Node.js, TypeScript e PostgreSQL.
 
+## Objetivo
+
+O projeto tem como objetivo desenvolver um sistema de gerenciamento de uma biblioteca/livraria utilizando uma aplicação CLI, banco de dados relacional PostgreSQL e uma arquitetura organizada em camadas.
+
+## Tecnologias
+
+* Node.js 20+
+* TypeScript
+* PostgreSQL
+* `pg`
+* `dotenv`
+* `readline/promises`
+
 ## Requisitos
 
-- Node.js 20 ou superior
-- PostgreSQL instalado e em execução
-- npm
+* Node.js 20 ou superior
+* PostgreSQL instalado e em execução
+* npm
 
 ## Instalação
+
+Clone o repositório e acesse a pasta do projeto:
+
+```bash
+git clone https://github.com/mesquitajayne/BookStore-Manager-CLI.git
+cd BookStore-Manager-CLI
+```
+
+Instale as dependências:
 
 ```bash
 npm install
 ```
 
-Copie `.env.example` para `.env` e informe host, porta, nome do banco, usuário e senha do PostgreSQL.
+Copie o arquivo `.env.example` para `.env` e configure os dados de acesso ao PostgreSQL.
+
+Exemplo:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=bookstore_db
+DB_USER=postgres
+DB_PASSWORD=sua_senha
+```
+
+> O arquivo `.env` não deve ser enviado ao GitHub.
 
 ## Banco de dados
 
-O arquivo `database/schema.sql` cria o banco `bookstore_db`, as tabelas e os relacionamentos. Execute com um usuário PostgreSQL que tenha permissão para criar bancos:
+O projeto utiliza PostgreSQL.
+
+O arquivo `database/schema.sql` contém a criação do banco, tabelas, chaves primárias e chaves estrangeiras.
+
+Execute:
 
 ```bash
 psql -U postgres -f database/schema.sql
 ```
 
-Se o banco já existir, remova ou comente a instrução `CREATE DATABASE bookstore_db;` e execute o script conectado ao banco correto.
+O modelo possui as seguintes tabelas:
 
-## Executar
+* `authors`
+* `books`
+* `customers`
+* `loans`
 
-Modo desenvolvimento:
+Relacionamentos:
+
+* `authors` 1:N `books`
+* `books` 1:N `loans`
+* `customers` 1:N `loans`
+
+## Executando o projeto
+
+### Desenvolvimento
 
 ```bash
 npm run dev
 ```
 
-Compilar TypeScript:
+### Compilação
 
 ```bash
 npm run build
 ```
 
-Executar versão compilada:
+### Versão compilada
 
 ```bash
 npm start
@@ -48,59 +97,198 @@ npm start
 
 ## Arquitetura
 
-- `controllers/`: recebe as ações da interface CLI e encaminha chamadas.
-- `services/`: aplica validações e regras de negócio.
-- `repositories/`: executa SQL parametrizado no PostgreSQL.
-- `database/`: configura o pool de conexão.
-- `models/`: interfaces e tipos do domínio.
+O projeto utiliza uma arquitetura em camadas:
 
-Fluxo: CLI → Controller → Service → Repository → PostgreSQL.
+```text
+CLI
+ ↓
+Controllers
+ ↓
+Services
+ ↓
+Repositories
+ ↓
+PostgreSQL
+```
+
+### Estrutura de pastas
+
+```text
+BookStore-Manager-CLI/
+├── database/
+│   └── schema.sql
+├── src/
+│   ├── controllers/
+│   │   ├── authorController.ts
+│   │   ├── bookController.ts
+│   │   ├── customerController.ts
+│   │   ├── loanController.ts
+│   │   └── reportController.ts
+│   ├── database/
+│   │   └── connection.ts
+│   ├── models/
+│   │   └── types.ts
+│   ├── repositories/
+│   │   ├── authorRepository.ts
+│   │   ├── bookRepository.ts
+│   │   ├── customerRepository.ts
+│   │   ├── loanRepository.ts
+│   │   └── reportRepository.ts
+│   ├── services/
+│   │   ├── authorService.ts
+│   │   ├── bookService.ts
+│   │   ├── customerService.ts
+│   │   ├── loanService.ts
+│   │   └── reportService.ts
+│   └── index.ts
+├── .env.example
+├── .gitignore
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+### Camadas
+
+* **Controllers:** recebem as ações da interface CLI e encaminham as chamadas.
+* **Services:** aplicam validações e regras de negócio.
+* **Repositories:** executam as operações SQL no PostgreSQL.
+* **Models:** definem interfaces e tipos utilizados pela aplicação.
+* **Database:** configura a conexão com o PostgreSQL.
+* **Index:** controla os menus e a interação com o usuário.
 
 ## Funcionalidades
 
-- CRUD de autores, livros e clientes.
-- Empréstimos com prazo padrão de 14 dias.
-- Devolução e atualização da disponibilidade.
-- Consulta de empréstimos ativos e histórico.
-- Relatórios SQL de livros por autor, empréstimos por cliente, livros por gênero, top 5 livros emprestados e livros disponíveis.
+### Autores
 
-## Consultas SQL utilizadas
+* Listagem de autores
+* Cadastro
+* Consulta por ID
+* Atualização
+* Remoção
 
-O projeto usa `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `JOIN`, `LEFT JOIN`, `GROUP BY`, `ORDER BY`, `LIMIT` e `COUNT`. Os valores de entrada são enviados por parâmetros SQL, evitando concatenar diretamente os valores fornecidos pelo usuário nas consultas.
+### Livros
 
-## Modelo relacional
+* Listagem de livros
+* Cadastro vinculado a um autor existente
+* Consulta por ID
+* Atualização
+* Remoção
+* Controle de disponibilidade
 
-- `authors` 1:N `books`
-- `books` 1:N `loans`
-- `customers` 1:N `loans`
+### Clientes
 
-As chaves estrangeiras impedem excluir autores, livros ou clientes que ainda tenham registros dependentes.
+* Listagem de clientes
+* Cadastro
+* Consulta por ID
+* Atualização
+* Remoção
+
+### Empréstimos
+
+* Listagem de empréstimos
+* Cadastro de empréstimo
+* Validação de livro e cliente
+* Validação de disponibilidade
+* Prazo padrão de 14 dias
+* Registro de devolução
+* Atualização automática da disponibilidade
+* Consulta de empréstimos ativos
+
+### Relatórios
+
+O sistema possui os relatórios exigidos pelo projeto:
+
+1. Livros disponíveis
+2. Livros emprestados
+3. Livros por autor
+4. Número de empréstimos por livro
+5. Clientes com empréstimos ativos
+
+Além deles, foram implementados relatórios adicionais:
+
+* Empréstimos por cliente
+* Livros por gênero
+* Top 5 livros mais emprestados
+
+## Consultas SQL
+
+O projeto utiliza operações e recursos SQL como:
+
+* `SELECT`
+* `INSERT`
+* `UPDATE`
+* `DELETE`
+* `INNER JOIN`
+* `LEFT JOIN`
+* `GROUP BY`
+* `ORDER BY`
+* `LIMIT`
+* `COUNT`
+* `WHERE`
+
+As consultas utilizam parâmetros do PostgreSQL (`$1`, `$2`, etc.), evitando a concatenação direta de dados fornecidos pelo usuário.
+
+## Tratamento de erros
+
+A aplicação utiliza `try/catch` para tratar operações inválidas sem encerrar o programa inesperadamente.
+
+Exemplos:
+
+* Autor inexistente
+* Livro inexistente
+* Cliente inexistente
+* Livro sem exemplares disponíveis
+* ID inválido
+* Tentativa de devolver um empréstimo já devolvido
 
 ## Exemplo de uso
 
 1. Cadastre um autor.
-2. Cadastre um livro usando o ID do autor.
+2. Cadastre um livro informando o ID do autor.
 3. Cadastre um cliente.
-4. Crie um empréstimo informando os IDs do livro e do cliente.
-5. Consulte empréstimos ativos e registre a devolução.
-6. Abra Relatórios para executar consultas agregadas.
+4. Crie um empréstimo informando o ID do livro e do cliente.
+5. Consulte os empréstimos ativos.
+6. Registre a devolução.
+7. Consulte os relatórios.
 
 ## Git e GitHub
 
-Sugestão de fluxo de trabalho:
+O projeto utiliza Git com branches separadas por funcionalidade:
 
-```bash
-git init
-git add .
-git commit -m "chore: inicializa estrutura do projeto"
-git checkout -b feat/crud-autores
-# implemente e teste a funcionalidade
-git add .
-git commit -m "feat: implementa cadastro de autores"
-git checkout -b feat/emprestimos
-# implemente empréstimos e devoluções
-git add .
-git commit -m "feat: implementa empréstimos e devoluções"
+```text
+main
+develop
+feat/autores
+feat/livros
+feat/clientes
+feat/emprestimos
+docs/readme
 ```
 
-Crie um repositório público no GitHub e envie o histórico com `git push -u origin <branch>`. Use branches por funcionalidade e mensagens de commit semânticas. Não inclua o arquivo `.env` no repositório.
+As mensagens de commit seguem o padrão semântico, utilizando prefixos como:
+
+* `feat:`
+* `fix:`
+* `docs:`
+* `chore:`
+
+O fluxo utilizado foi:
+
+```text
+feat/* → develop → main
+```
+
+## Kanban
+
+Link do quadro Kanban do projeto:
+
+> Adicione aqui o link do seu quadro Kanban utilizado durante o desenvolvimento.
+
+## Equipe
+
+Projeto desenvolvido para a disciplina de Engenharia de Software.
+
+## Licença
+
+Projeto acadêmico desenvolvido para fins educacionais.
