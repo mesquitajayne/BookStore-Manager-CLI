@@ -4,6 +4,13 @@ import { NewCustomer } from '../models/types';
 export class CustomerService {
   constructor(private repository = new CustomerRepository()) {}
   list() { return this.repository.list(); }
+    get(id: number) {
+    if (!Number.isInteger(id) || id <= 0) {
+      throw new Error('Informe um ID válido.');
+    }
+
+    return this.repository.get(id);
+  }
   async create(data: NewCustomer) {
     if (!data.name?.trim()) throw new Error('Nome do cliente é obrigatório.');
     if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) throw new Error('E-mail inválido.');
