@@ -5,6 +5,7 @@ import { NewBook } from '../models/types';
 export class BookService {
   constructor(private books = new BookRepository(), private authors = new AuthorRepository()) {}
   list() { return this.books.list(); }
+  async get(id: number) { return this.books.get(id); }
   async create(data: NewBook) {
     if (!data.title?.trim()) throw new Error('Título do livro é obrigatório.');
     if (!Number.isInteger(data.author_id) || data.author_id <= 0) throw new Error('Informe um ID de autor válido.');
